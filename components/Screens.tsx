@@ -1,23 +1,43 @@
 "use client";
 
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { SCREEN_SHOTS } from "@/lib/constants";
+
+const AUTOPLAY_MS = 5000;
 
 export default function Screens() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
+  const [retry, setRetry] = useState(0);
 
   const scrollTo = useCallback((i: number) => {
     const track = trackRef.current;
     if (!track) return;
     const clamped = (i + SCREEN_SHOTS.length) % SCREEN_SHOTS.length;
     const child = track.children[clamped] as HTMLElement | undefined;
-    child?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    child?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      inline: "center",
+      block: "nearest",
+    });
     setActive(clamped);
-  }, []);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const t = setTimeout(() => {
+      if (!pausedRef.current && document.visibilityState === "visible") {
+        scrollTo(active + 1);
+      } else {
+        setRetry((r) => r + 1);
+      }
+    }, AUTOPLAY_MS);
+    return () => clearTimeout(t);
+  }, [active, retry, reduceMotion, scrollTo]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -65,7 +85,27 @@ export default function Screens() {
           className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
           style={{ scrollbarWidth: "none" }}
           aria-roledescription="carousel"
-          aria-label="TagScribe app screenshots"
+          aria-label="TagScribe app screenshots. Auto-advances every 5 seconds. Swipe to explore."
+          onPointerDown={() => {
+            pausedRef.current = true;
+          }}
+          onPointerUp={() => {
+            setTimeout(() => {
+              pausedRef.current = false;
+            }, AUTOPLAY_MS);
+          }}
+          onMouseEnter={() => {
+            pausedRef.current = true;
+          }}
+          onMouseLeave={() => {
+            pausedRef.current = false;
+          }}
+          onFocus={() => {
+            pausedRef.current = true;
+          }}
+          onBlur={() => {
+            pausedRef.current = false;
+          }}
         >
           {SCREEN_SHOTS.map((s, i) => (
             <article
@@ -107,15 +147,7 @@ export default function Screens() {
           ))}
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-4">
-          <button
-            type="button"
-            aria-label="Previous screenshot"
-            onClick={() => scrollTo(active - 1)}
-            className="rounded-full border border-white/15 bg-white/5 p-2.5 text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
-          >
-            <ChevronLeft size={18} />
-          </button>
+        <div className="mt-6 flex items-center justify-center">
           <div className="flex gap-2" role="tablist" aria-label="Choose screenshot">
             {SCREEN_SHOTS.map((s, i) => (
               <button
@@ -131,14 +163,6 @@ export default function Screens() {
               />
             ))}
           </div>
-          <button
-            type="button"
-            aria-label="Next screenshot"
-            onClick={() => scrollTo(active + 1)}
-            className="rounded-full border border-white/15 bg-white/5 p-2.5 text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
-          >
-            <ChevronRight size={18} />
-          </button>
         </div>
       </div>
     </section>

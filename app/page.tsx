@@ -7,6 +7,7 @@ import SocialProof from "@/components/SocialProof";
 import Ticker from "@/components/Ticker";
 import Showcase from "@/components/Showcase";
 import HowItWorks from "@/components/HowItWorks";
+import Screens from "@/components/Screens";
 import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
@@ -25,6 +26,7 @@ export default function Home() {
       <SocialProof />
       <Showcase />
       <HowItWorks />
+      <Screens />
       <Pricing onChoose={() => setUploadOpen(true)} />
       <FAQ />
       <Footer />

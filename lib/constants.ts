@@ -104,3 +104,34 @@ export const FAQS = [
 
 export const CONTACT_EMAIL = "support@tagscribe.ai";
 export const FOOTER_NOTE = "© 2026 TagScribe. All rights reserved.";
+
+export const SCREEN_SHOTS = [
+  {
+    src: "/screens/screen1.png",
+    url: "tagscribe.ai/dashboard",
+    title: "Creator dashboard",
+    caption: "Drag in a video and pick up where you left off — recent projects, statuses, and minutes at a glance.",
+    alt: "TagScribe dashboard with upload dropzone and recent video projects",
+  },
+  {
+    src: "/screens/screen2.png",
+    url: "tagscribe.ai/editor",
+    title: "Caption editor",
+    caption: "Word-level Taglish transcript beside the preview, with TikTok-ready style presets one click away.",
+    alt: "TagScribe caption editor showing video preview with burned-in Taglish caption and transcript panel",
+  },
+  {
+    src: "/screens/screen3.png",
+    url: "tagscribe.ai/export",
+    title: "One-click export",
+    caption: "Plain text, timed subtitles, web captions, or a watermark-free 1080p MP4 render.",
+    alt: "TagScribe export dialog with caption format options and high-resolution render upsell",
+  },
+  {
+    src: "/screens/screen4.png",
+    url: "tagscribe.ai/billing",
+    title: "Flexible billing",
+    caption: "Free tier, Creator Pro at ₱299, Agency at ₱1,299 — pay with GCash, Maya, or top up as you go.",
+    alt: "TagScribe billing screen with free, creator pro, and agency plans plus GCash and Maya payment options",
+  },
+] as const;

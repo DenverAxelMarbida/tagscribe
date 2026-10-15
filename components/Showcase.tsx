@@ -137,9 +137,15 @@ export default function Showcase() {
       <p className="text-center text-xs font-semibold uppercase tracking-widest text-cyan-400">
         Product tour
       </p>
-      <h2 className="mx-auto mt-3 max-w-2xl text-center text-3xl font-extrabold tracking-tight sm:text-4xl">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.45 }}
+        className="mx-auto mt-3 max-w-2xl text-center text-3xl font-extrabold tracking-tight sm:text-4xl"
+      >
         Everything Taglish video needs, nothing it doesn&apos;t
-      </h2>
+      </motion.h2>
 
       <div className="mt-8 flex flex-col justify-center gap-2 sm:flex-row" role="tablist" aria-label="Feature showcase">
         {SHOWCASE_TABS.map((t, i) => {

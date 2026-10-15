@@ -15,9 +15,15 @@ export default function Pricing({ onChoose }: { onChoose: (tier: string) => void
 
   return (
     <section id="pricing" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-      <h2 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.45 }}
+        className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl"
+      >
         Simple pricing in pesos
-      </h2>
+      </motion.h2>
       <p className="mt-3 text-center text-sm text-zinc-400">
         Pay with GCash or Maya. Cancel anytime.
       </p>

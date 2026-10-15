@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FAQS } from "@/lib/constants";
 
@@ -9,9 +10,15 @@ export default function FAQ() {
 
   return (
     <section id="faqs" className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <h2 className="text-center text-3xl font-extrabold tracking-tight">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.45 }}
+        className="text-center text-3xl font-extrabold tracking-tight"
+      >
         Frequently asked questions
-      </h2>
+      </motion.h2>
       <div className="mt-8 flex flex-col gap-3">
         {FAQS.map((f, i) => {
           const isOpen = open === i;

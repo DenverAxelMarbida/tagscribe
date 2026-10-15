@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 
-export default function Nav({ onTrial }: { onTrial: () => void }) {
+export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -24,26 +24,6 @@ export default function Nav({ onTrial }: { onTrial: () => void }) {
               {l.label}
             </a>
           ))}
-        </div>
-
-        <div className="hidden items-center gap-3 md:flex">
-          <button
-            type="button"
-            onClick={onTrial}
-            className="text-sm text-zinc-300 transition-colors hover:text-white"
-          >
-            Log In
-          </button>
-          <button
-            type="button"
-            onClick={onTrial}
-            className="rounded-lg bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-transform hover:scale-[1.02]"
-          >
-            Try Free
-            <span className="mt-0.5 block text-[10px] font-normal opacity-80">
-              No credit card • GCash • Maya
-            </span>
-          </button>
         </div>
 
         <button
@@ -70,16 +50,6 @@ export default function Nav({ onTrial }: { onTrial: () => void }) {
                 {l.label}
               </a>
             ))}
-            <button
-              type="button"
-              onClick={() => {
-                setOpen(false);
-                onTrial();
-              }}
-              className="mt-2 rounded-lg bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white"
-            >
-              Try Free — No Credit Card (GCash • Maya)
-            </button>
           </div>
         </div>
       )}

@@ -75,7 +75,7 @@ export default function HeroMockup() {
             </span>
             <span className="block">
               {WORDS.slice(6).map((w, k) => renderWord(w, k + 6))}
-              <span className="animate-pulse text-cyan-400">|</span>
+              <span className="caret-blink text-cyan-400">|</span>
             </span>
           </p>
         </div>

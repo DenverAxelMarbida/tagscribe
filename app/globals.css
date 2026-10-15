@@ -77,14 +77,6 @@ body {
 .caret-blink {
   animation: caret-blink 0.8s steps(1) infinite;
 }
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 .ticker-track {
   animation: ticker-scroll 28s linear infinite;
 }

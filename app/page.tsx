@@ -4,6 +4,8 @@ import { useState } from "react";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
+import Showcase from "@/components/Showcase";
+import HowItWorks from "@/components/HowItWorks";
 
 export default function Home() {
   const [uploadOpen, setUploadOpen] = useState(false);
@@ -14,6 +16,8 @@ export default function Home() {
       <Nav onTrial={() => setUploadOpen(true)} />
       <Hero onUpload={() => setUploadOpen(true)} onVideo={() => setVideoOpen(true)} />
       <SocialProof />
+      <Showcase />
+      <HowItWorks />
       {uploadOpen && <div data-testid="upload-modal-pending" className="hidden" />}
       {videoOpen && <div data-testid="video-modal-pending" className="hidden" />}
     </main>

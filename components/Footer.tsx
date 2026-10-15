@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="border-t border-white/10">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
-          <p className="text-lg font-bold tracking-tight">
+          <p className="font-display text-lg font-bold tracking-tight">
             Tag<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Scribe</span>
           </p>
           <p className="mt-2 text-sm text-zinc-400">
@@ -55,6 +55,11 @@ export default function Footer() {
             </p>
           )}
         </div>
+      </div>
+      <div className="overflow-hidden border-t border-white/10">
+        <p aria-hidden="true" className="ghost-word whitespace-nowrap text-center font-display text-[19vw] font-bold leading-[0.9] sm:text-[10rem]">
+          TagScribe
+        </p>
       </div>
       <div className="border-t border-white/10">
         <p className="mx-auto max-w-6xl px-4 py-5 text-center text-xs text-zinc-500 sm:px-6">

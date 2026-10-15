@@ -4,6 +4,7 @@ import { useState } from "react";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
+import Ticker from "@/components/Ticker";
 import Showcase from "@/components/Showcase";
 import HowItWorks from "@/components/HowItWorks";
 import Pricing from "@/components/Pricing";
@@ -20,6 +21,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#0A0A0B] text-zinc-100">
       <Nav onTrial={() => setUploadOpen(true)} />
       <Hero onUpload={() => setUploadOpen(true)} onVideo={() => setVideoOpen(true)} />
+      <Ticker />
       <SocialProof />
       <Showcase />
       <HowItWorks />

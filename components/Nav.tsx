@@ -10,7 +10,7 @@ export default function Nav({ onTrial }: { onTrial: () => void }) {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0A0A0B]/80 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="text-lg font-bold tracking-tight">
+        <a href="#top" className="font-display text-lg font-bold tracking-tight">
           Tag<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Scribe</span>
         </a>
 

@@ -11,7 +11,8 @@ module.exports = {
         ink: "#0A0A0B",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-grotesk)", "var(--font-inter)", "system-ui", "sans-serif"],
       },
     },
   },

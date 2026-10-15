@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FAQS } from "@/lib/constants";
 
@@ -15,7 +15,7 @@ export default function FAQ() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.45 }}
-        className="text-center text-3xl font-extrabold tracking-tight"
+        className="text-center font-display text-3xl font-bold tracking-tight"
       >
         Frequently asked questions
       </motion.h2>
@@ -36,12 +36,23 @@ export default function FAQ() {
                 {f.q}
                 <ChevronDown
                   size={16}
-                  className={`shrink-0 text-zinc-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  className={`shrink-0 text-zinc-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                 />
               </button>
-              {isOpen && (
-                <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-400">{f.a}</p>
-              )}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    key="answer"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.32, ease: [0.4, 0, 0.2, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-400">{f.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}

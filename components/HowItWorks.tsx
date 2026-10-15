@@ -30,7 +30,7 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.45 }}
-          className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl"
+          className="text-center font-display text-3xl font-bold tracking-tight sm:text-4xl"
         >
           From upload to captioned in 3 steps
         </motion.h2>

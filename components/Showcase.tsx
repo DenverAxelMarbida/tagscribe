@@ -150,7 +150,11 @@ export default function Showcase() {
   const Mockup = MOCKUPS[active];
 
   return (
-    <section id="features" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <section id="features" className="relative mx-auto max-w-6xl overflow-hidden px-4 py-16 sm:px-6 sm:py-20">
+      <span aria-hidden="true" className="ghost-word pointer-events-none absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap font-display text-[18vw] font-bold leading-none sm:text-[9rem]">
+        TAGLISH
+      </span>
+      <div className="relative">
       <p className="text-center text-xs font-semibold uppercase tracking-widest text-cyan-400">
         Product tour
       </p>
@@ -159,7 +163,7 @@ export default function Showcase() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.45 }}
-        className="mx-auto mt-3 max-w-2xl text-center text-3xl font-extrabold tracking-tight sm:text-4xl"
+        className="mx-auto mt-3 max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl"
       >
         Everything Taglish video needs, nothing it doesn&apos;t
       </motion.h2>
@@ -219,6 +223,7 @@ export default function Showcase() {
             <Mockup />
           </motion.div>
         </AnimatePresence>
+      </div>
       </div>
     </section>
   );

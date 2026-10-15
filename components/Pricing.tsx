@@ -16,13 +16,17 @@ export default function Pricing({ onChoose }: { onChoose: (tier: string) => void
   const [billing, setBilling] = useState<BillingCycle>("monthly");
 
   return (
-    <section id="pricing" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <section id="pricing" className="relative mx-auto max-w-6xl overflow-hidden px-4 py-16 sm:px-6 sm:py-20">
+      <span aria-hidden="true" className="ghost-word pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap font-display text-[18vw] font-bold leading-none sm:text-[9rem]">
+        SULIT
+      </span>
+      <div className="relative">
       <motion.h2
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.45 }}
-        className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl"
+        className="text-center font-display text-3xl font-bold tracking-tight sm:text-4xl"
       >
         Simple pricing in pesos
       </motion.h2>
@@ -105,13 +109,14 @@ export default function Pricing({ onChoose }: { onChoose: (tier: string) => void
             >
               {t.cta}
             </button>
-            <p className="mt-3 text-center text-[11px] text-zinc-500">
-              <span className="rounded bg-white/5 px-1.5 py-0.5 font-semibold text-zinc-400">GCash</span>{" "}
-              <span className="rounded bg-white/5 px-1.5 py-0.5 font-semibold text-zinc-400">Maya</span>{" "}
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-zinc-500">
+              <span className="rounded-md bg-[#007DFF]/15 px-1.5 py-0.5 font-bold text-[#4da3ff]">GCash</span>
+              <span className="rounded-md bg-[#00A651]/15 px-1.5 py-0.5 font-bold text-[#34d17b]">Maya</span>
               accepted
             </p>
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

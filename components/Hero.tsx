@@ -12,8 +12,9 @@ export default function Hero({
   onVideo: () => void;
 }) {
   return (
-    <section id="top" className="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pt-20">
-      <div className="grid items-center gap-12 lg:grid-cols-2">
+    <section id="top" className="hero-stage noise relative overflow-hidden">
+      <div className="hero-grid relative mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pt-20">
+      <div className="relative grid items-center gap-12 lg:grid-cols-2">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -28,7 +29,7 @@ export default function Hero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.05 }}
-            className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl"
+            className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
           >
             Instant, Accurate{" "}
             <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
@@ -80,6 +81,7 @@ export default function Hero({
         >
           <HeroMockup />
         </motion.div>
+      </div>
       </div>
     </section>
   );

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { BadgeCheck } from "lucide-react";
 
 const FULL_LINE = "Hello mga lods, gets niyo ba? Charot lang!";
+const WORDS = FULL_LINE.split(" ");
 const WAVEFORM = [38, 62, 45, 80, 55, 92, 70, 48, 76, 60, 88, 52, 68, 90, 58, 74, 42, 66, 84, 50, 72, 60, 82, 46];
 
 export default function HeroMockup() {
@@ -22,6 +22,14 @@ export default function HeroMockup() {
     const t = setTimeout(() => setChars((c) => c + 1), 55);
     return () => clearTimeout(t);
   }, [chars]);
+
+  const typed = FULL_LINE.slice(0, chars);
+  const activeWord = useMemo(() => {
+    const count = typed.split(" ").length - 1;
+    return typed.endsWith(" ") ? count - 1 : count;
+  }, [typed]);
+
+  let offset = 0;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/80 shadow-2xl shadow-violet-500/10">
@@ -41,13 +49,29 @@ export default function HeroMockup() {
       <div className="relative bg-gradient-to-b from-zinc-800 to-zinc-900 px-4 py-8 sm:px-8">
         <p className="text-center text-sm text-zinc-500">vlog_ep12_final.mp4</p>
         <div className="mx-auto mt-4 max-w-md rounded-xl bg-black/60 px-4 py-5 text-center">
-          <motion.p
-            key={cycle}
-            className="min-h-[3.5rem] break-words text-lg font-bold leading-snug text-white sm:text-xl"
-          >
-            {FULL_LINE.slice(0, chars)}
+          <p key={cycle} className="min-h-[3.5rem] break-words text-lg font-bold leading-snug sm:text-xl" aria-live="polite">
+            {WORDS.map((w, i) => {
+              const start = offset;
+              offset += w.length + 1;
+              const done = chars >= start + w.length;
+              const current = i === activeWord && chars > start && !done;
+              return (
+                <span
+                  key={`${cycle}-${i}`}
+                  className={
+                    current
+                      ? "rounded bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent"
+                      : done
+                        ? "text-white"
+                        : "text-zinc-600"
+                  }
+                >
+                  {w}{" "}
+                </span>
+              );
+            })}
             <span className="animate-pulse text-cyan-400">|</span>
-          </motion.p>
+          </p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
           <span className="flex items-center gap-1 rounded-full bg-violet-500/15 px-2.5 py-1 text-[11px] text-violet-300">

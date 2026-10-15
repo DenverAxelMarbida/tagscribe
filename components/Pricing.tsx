@@ -7,7 +7,9 @@ import { PRICING_TIERS, type BillingCycle } from "@/lib/constants";
 
 function price(t: (typeof PRICING_TIERS)[number], billing: BillingCycle) {
   if (t.monthly === 0) return "₱0";
-  return billing === "monthly" ? `₱${t.monthly}/mo` : `₱${t.annual}/yr`;
+  return billing === "monthly"
+    ? `₱${t.monthly.toLocaleString()}/mo`
+    : `₱${t.annual.toLocaleString()}/yr`;
 }
 
 export default function Pricing({ onChoose }: { onChoose: (tier: string) => void }) {

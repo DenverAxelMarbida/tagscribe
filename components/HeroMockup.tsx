@@ -9,20 +9,19 @@ const WAVEFORM = [38, 62, 45, 80, 55, 92, 70, 48, 76, 60, 88, 52, 68, 90, 58, 74
 
 export default function HeroMockup() {
   const [chars, setChars] = useState(0);
+  const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    setChars(0);
-    const t = setInterval(() => {
-      setChars((c) => {
-        if (c >= FULL_LINE.length) {
-          setTimeout(() => setChars(0), 2200);
-          return c;
-        }
-        return c + 1;
-      });
-    }, 55);
-    return () => clearInterval(t);
-  }, []);
+    if (chars >= FULL_LINE.length) {
+      const pause = setTimeout(() => {
+        setChars(0);
+        setCycle((c) => c + 1);
+      }, 2200);
+      return () => clearTimeout(pause);
+    }
+    const t = setTimeout(() => setChars((c) => c + 1), 55);
+    return () => clearTimeout(t);
+  }, [chars]);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/80 shadow-2xl shadow-violet-500/10">
@@ -43,8 +42,8 @@ export default function HeroMockup() {
         <p className="text-center text-sm text-zinc-500">vlog_ep12_final.mp4</p>
         <div className="mx-auto mt-4 max-w-md rounded-xl bg-black/60 px-4 py-5 text-center">
           <motion.p
-            key={chars === 0 ? "reset" : "typing"}
-            className="min-h-[3.5rem] text-lg font-bold leading-snug text-white sm:text-xl"
+            key={cycle}
+            className="min-h-[3.5rem] break-words text-lg font-bold leading-snug text-white sm:text-xl"
           >
             {FULL_LINE.slice(0, chars)}
             <span className="animate-pulse text-cyan-400">|</span>

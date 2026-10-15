@@ -44,6 +44,7 @@ function DetectionMockup() {
 }
 
 function TimelineMockup() {
+  const [font, setFont] = useState(0);
   const fonts = [
     { name: "TikTok Bold", sample: "HELLO MGA LODS", cls: "font-black tracking-tight" },
     { name: "Reels Rounded", sample: "Hello mga lods", cls: "font-bold" },
@@ -67,16 +68,25 @@ function TimelineMockup() {
           Selection: <span className="text-cyan-300">“gets niyo ba?”</span> • 00:14.2 → 00:15.8
         </p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
-        {fonts.map((f) => (
+      <div className="grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Font preset">
+        {fonts.map((f, i) => (
           <button
             key={f.name}
             type="button"
-            className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left transition-colors hover:border-violet-500/40"
+            role="radio"
+            aria-checked={font === i}
+            onClick={() => setFont(i)}
+            className={`rounded-xl border p-4 text-left transition-colors ${
+              font === i
+                ? "border-violet-500/60 bg-violet-500/10"
+                : "border-white/10 bg-white/[0.03] hover:border-violet-500/40"
+            }`}
           >
             <Type size={14} className="mb-2 text-violet-300" />
             <p className={`text-white ${f.cls}`}>{f.sample}</p>
-            <p className="mt-1 text-xs text-zinc-500">{f.name}</p>
+            <p className="mt-1 text-xs text-zinc-500">
+              {f.name}{font === i ? " • selected" : ""}
+            </p>
           </button>
         ))}
       </div>
@@ -86,6 +96,7 @@ function TimelineMockup() {
 
 function ExportMockup() {
   const [watermark, setWatermark] = useState(true);
+  const [rendered, setRendered] = useState(false);
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
@@ -98,11 +109,12 @@ function ExportMockup() {
         ))}
       </div>
       <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.03] p-4">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">Watermark</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-400">Remove watermark</p>
         <button
           type="button"
           role="switch"
           aria-checked={!watermark}
+          aria-label="Remove watermark"
           onClick={() => setWatermark((v) => !v)}
           className={`relative h-7 w-12 rounded-full transition-colors ${watermark ? "bg-zinc-700" : "bg-gradient-to-r from-violet-500 to-cyan-500"}`}
         >
@@ -115,11 +127,16 @@ function ExportMockup() {
         </p>
         <button
           type="button"
-          className="mt-auto flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2.5 pt-2.5 text-sm font-semibold text-white"
-          style={{ marginTop: "1rem" }}
+          onClick={() => setRendered(true)}
+          className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white"
         >
-          <Download size={15} /> Render video
+          <Download size={15} /> {rendered ? "Added to render queue" : "Render video"}
         </button>
+        {rendered && (
+          <p className="mt-2 text-xs text-emerald-300">
+            Demo render queued — Creator Pro unlocks high-speed rendering.
+          </p>
+        )}
       </div>
     </div>
   );
@@ -147,14 +164,26 @@ export default function Showcase() {
         Everything Taglish video needs, nothing it doesn&apos;t
       </motion.h2>
 
-      <div className="mt-8 flex flex-col justify-center gap-2 sm:flex-row" role="tablist" aria-label="Feature showcase">
+      <div
+        className="mt-8 flex flex-col justify-center gap-2 sm:flex-row"
+        role="tablist"
+        aria-label="Feature showcase"
+        onKeyDown={(e) => {
+          if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+          e.preventDefault();
+          setActive((a) => (e.key === "ArrowRight" ? (a + 1) % SHOWCASE_TABS.length : (a - 1 + SHOWCASE_TABS.length) % SHOWCASE_TABS.length));
+        }}
+      >
         {SHOWCASE_TABS.map((t, i) => {
           const Icon = TAB_ICONS[i];
           return (
             <button
               key={t.id}
               role="tab"
+              id={`showcase-tab-${t.id}`}
               aria-selected={active === i}
+              aria-controls={`showcase-panel-${t.id}`}
+              tabIndex={active === i ? 0 : -1}
               onClick={() => setActive(i)}
               className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-colors ${
                 active === i
@@ -173,7 +202,12 @@ export default function Showcase() {
         {SHOWCASE_TABS[active].description}
       </p>
 
-      <div className="mx-auto mt-8 max-w-4xl rounded-2xl border border-white/10 bg-zinc-900/50 p-4 sm:p-6">
+      <div
+        className="mx-auto mt-8 max-w-4xl rounded-2xl border border-white/10 bg-zinc-900/50 p-4 sm:p-6"
+        role="tabpanel"
+        id={`showcase-panel-${SHOWCASE_TABS[active].id}`}
+        aria-labelledby={`showcase-tab-${SHOWCASE_TABS[active].id}`}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={active}

@@ -1,0 +1,47 @@
+import { CONTACT_EMAIL, FOOTER_NOTE } from "@/lib/constants";
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-white/10">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
+        <div>
+          <p className="text-lg font-bold tracking-tight">
+            Tag<span className="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Scribe</span>
+          </p>
+          <p className="mt-2 text-sm text-zinc-400">
+            Instant, accurate Taglish captions for Filipino creators.
+          </p>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="mt-3 inline-block text-sm text-cyan-300 hover:text-cyan-200"
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </div>
+        <div className="flex gap-12 text-sm">
+          <div className="flex flex-col gap-2.5">
+            <p className="font-semibold text-zinc-200">Product</p>
+            <a href="#features" className="text-zinc-400 hover:text-white">Features</a>
+            <a href="#pricing" className="text-zinc-400 hover:text-white">Pricing</a>
+            <a href="#faqs" className="text-zinc-400 hover:text-white">FAQs</a>
+          </div>
+          <div className="flex flex-col gap-2.5">
+            <p className="font-semibold text-zinc-200">Legal</p>
+            <a href="#top" className="text-zinc-400 hover:text-white">Terms of Service</a>
+            <a href="#top" className="text-zinc-400 hover:text-white">Privacy Policy</a>
+            <a href="#top" className="text-zinc-400 hover:text-white">Discord Community</a>
+          </div>
+        </div>
+        <div className="text-sm text-zinc-400 md:text-right">
+          <p>Native GCash &amp; Maya checkout.</p>
+          <p className="mt-1">Made for Filipino creators, editors &amp; agencies.</p>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-center text-xs text-zinc-500 sm:px-6">
+          {FOOTER_NOTE}
+        </p>
+      </div>
+    </footer>
+  );
+}

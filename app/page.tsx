@@ -6,6 +6,11 @@ import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
 import Showcase from "@/components/Showcase";
 import HowItWorks from "@/components/HowItWorks";
+import Pricing from "@/components/Pricing";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
+import UploadModal from "@/components/UploadModal";
+import VideoModal from "@/components/VideoModal";
 
 export default function Home() {
   const [uploadOpen, setUploadOpen] = useState(false);
@@ -18,8 +23,11 @@ export default function Home() {
       <SocialProof />
       <Showcase />
       <HowItWorks />
-      {uploadOpen && <div data-testid="upload-modal-pending" className="hidden" />}
-      {videoOpen && <div data-testid="video-modal-pending" className="hidden" />}
+      <Pricing onChoose={() => setUploadOpen(true)} />
+      <FAQ />
+      <Footer />
+      <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />
+      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
     </main>
   );
 }

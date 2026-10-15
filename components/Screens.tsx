@@ -19,11 +19,10 @@ export default function Screens() {
     if (!track) return;
     const clamped = (i + SCREEN_SHOTS.length) % SCREEN_SHOTS.length;
     const child = track.children[clamped] as HTMLElement | undefined;
-    child?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      inline: "center",
-      block: "nearest",
-    });
+    if (!child) return;
+    // Track-local scroll only: never moves the page (scrollIntoView would).
+    const left = child.offsetLeft - (track.clientWidth - child.clientWidth) / 2;
+    track.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
     setActive(clamped);
   }, [reduceMotion]);
 
@@ -82,7 +81,7 @@ export default function Screens() {
 
         <div
           ref={trackRef}
-          className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
+          className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain pb-4"
           style={{ scrollbarWidth: "none" }}
           aria-roledescription="carousel"
           aria-label="TagScribe app screenshots. Auto-advances every 5 seconds. Swipe to explore."

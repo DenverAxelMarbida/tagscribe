@@ -29,7 +29,27 @@ export default function HeroMockup() {
     return typed.endsWith(" ") ? count - 1 : count;
   }, [typed]);
 
-  let offset = 0;
+  const startOf = (i: number) =>
+    i === 0 ? 0 : WORDS.slice(0, i).join(" ").length + 1;
+  const renderWord = (w: string, i: number) => {
+    const start = startOf(i);
+    const done = chars >= start + w.length;
+    const current = i === activeWord && chars > start && !done;
+    return (
+      <span
+        key={`${cycle}-${i}`}
+        className={
+          current
+            ? "rounded bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent"
+            : done
+              ? "text-white"
+              : "text-zinc-600"
+        }
+      >
+        {w}{" "}
+      </span>
+    );
+  };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/80 shadow-2xl shadow-violet-500/10">
@@ -49,28 +69,14 @@ export default function HeroMockup() {
       <div className="relative bg-gradient-to-b from-zinc-800 to-zinc-900 px-4 py-8 sm:px-8">
         <p className="text-center text-sm text-zinc-500">vlog_ep12_final.mp4</p>
         <div className="mx-auto mt-4 max-w-md rounded-xl bg-black/60 px-4 py-5 text-center">
-          <p key={cycle} className="min-h-[3.5rem] break-words text-lg font-bold leading-snug sm:text-xl" aria-live="polite">
-            {WORDS.map((w, i) => {
-              const start = offset;
-              offset += w.length + 1;
-              const done = chars >= start + w.length;
-              const current = i === activeWord && chars > start && !done;
-              return (
-                <span
-                  key={`${cycle}-${i}`}
-                  className={
-                    current
-                      ? "rounded bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent"
-                      : done
-                        ? "text-white"
-                        : "text-zinc-600"
-                  }
-                >
-                  {w}{" "}
-                </span>
-              );
-            })}
-            <span className="animate-pulse text-cyan-400">|</span>
+          <p key={cycle} className="min-h-[4.5rem] break-words text-lg font-bold leading-snug sm:text-xl" aria-live="polite">
+            <span className="block">
+              {WORDS.slice(0, 6).map((w, k) => renderWord(w, k))}
+            </span>
+            <span className="block">
+              {WORDS.slice(6).map((w, k) => renderWord(w, k + 6))}
+              <span className="animate-pulse text-cyan-400">|</span>
+            </span>
           </p>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">

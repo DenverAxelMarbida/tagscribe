@@ -10,9 +10,11 @@ const AUTOPLAY_MS = 5000;
 export default function Screens() {
   const trackRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
+  const dragRef = useRef<{ startX: number; startLeft: number; moved: boolean } | null>(null);
   const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
   const [retry, setRetry] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
   const scrollTo = useCallback((i: number) => {
     const track = trackRef.current;
@@ -81,17 +83,48 @@ export default function Screens() {
 
         <div
           ref={trackRef}
-          className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain pb-4"
-          style={{ scrollbarWidth: "none" }}
+          className={`mt-10 flex gap-6 overflow-x-auto overscroll-x-contain pb-4 select-none ${
+            dragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab"
+          }`}
+          style={{ scrollbarWidth: "none", touchAction: "pan-y" }}
           aria-roledescription="carousel"
-          aria-label="TagScribe app screenshots. Auto-advances every 5 seconds. Swipe to explore."
-          onPointerDown={() => {
+          aria-label="TagScribe app screenshots. Auto-advances every 5 seconds. Drag or swipe to explore."
+          onPointerDown={(e) => {
             pausedRef.current = true;
+            // Touch keeps native swipe; mouse gets drag-to-scroll.
+            if (e.pointerType !== "mouse" || e.button !== 0) return;
+            const track = trackRef.current;
+            if (!track) return;
+            dragRef.current = { startX: e.clientX, startLeft: track.scrollLeft, moved: false };
+            track.setPointerCapture(e.pointerId);
+            setDragging(true);
           }}
-          onPointerUp={() => {
+          onPointerMove={(e) => {
+            const drag = dragRef.current;
+            const track = trackRef.current;
+            if (!drag || !track || e.pointerType !== "mouse") return;
+            const dx = e.clientX - drag.startX;
+            if (Math.abs(dx) > 4) drag.moved = true;
+            track.scrollLeft = drag.startLeft - dx;
+          }}
+          onPointerUp={(e) => {
+            if (e.pointerType === "mouse") {
+              dragRef.current = null;
+              setDragging(false);
+              try {
+                trackRef.current?.releasePointerCapture(e.pointerId);
+              } catch {
+                /* noop */
+              }
+            }
             setTimeout(() => {
               pausedRef.current = false;
             }, AUTOPLAY_MS);
+          }}
+          onPointerCancel={() => {
+            dragRef.current = null;
+            setDragging(false);
+            pausedRef.current = false;
           }}
           onMouseEnter={() => {
             pausedRef.current = true;
@@ -130,6 +163,7 @@ export default function Screens() {
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 70vw, 60vw"
                     className="object-cover object-top"
                     loading={i === 0 ? "eager" : "lazy"}
+                    draggable={false}
                   />
                 </div>
               </div>
